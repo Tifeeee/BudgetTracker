@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="display.css">
+</head>
+<body>
+    <div class=" background"></div>
+    <a href="index.html">go back</a>
+    <h1 class="heading">Expenses:</h1>
+    
+  
+    <div id="disp"></div>
+      <button onclick="deleteItem()" id="Deletebutton">Delete</button>
+  
+      <button onclick="editItem()" id="Editbutton">Edit</button>
+   
+  
+      
+      <script>
+            let allItems = JSON.parse(localStorage.getItem('allBudgets'))
+             if (allItems && allItems.length > 0){
+              let totalSpent = 0
+              display();
+              disp.innerHTML += ` <p> The total spent: ${totalSpent.toFixed(2)} </p>`
+            
+             }
+  
+             
+             function display() {
+               let disp = document.getElementById('disp');
+               let totalSpent = 0;
+  
+               if (allItems && allItems.length > 0) {
+                  disp.innerHTML += `<p>The total spent: ${totalSpent.toFixed(2)}</p>`;
+                  }
+                  disp.innerHTML = ""; 
+  
+              for (i = 0; i < allItems.length; i++) {
+              let item = allItems[i];
+              let itemTotal = item.ItemQuant * item.ItemPrice;
+              totalSpent += itemTotal;
+  
+              disp.innerHTML += `
+              <div >
+                
+                <div class="card" style="width: 100% !important;">
+                    <div class="cardbody">
+                        <p class="card-Item">Item: ${item.Items}</p>
+                        <p class="card-Quantity">Quantity: ${item.ItemQuant}</p>
+                        <p class="card-Price">Price: ${item.ItemPrice}</p>
+                        <p class="card-Total">Total: ${itemTotal}</p>
+                    </div>
+                </div>
+              </div>
+                `;
+                
+            }
+          }
+        
+      
+  
+  
+    
+      function deleteItem() {
+      let del = prompt("Enter the item you are deleting.");
+      allItems = allItems.filter(item => item.Items !== del);
+      localStorage.setItem('allBudgets', JSON.stringify(allItems));
+      display();
+  }
+  
+  function editItem() {
+      let itemName = prompt("Enter the name of the item you want to edit:");
+      
+      if (itemName == null) {
+          alert("Please enter a valid item name.");
+          return;
+      }
+  
+      let foundItem = allItems.find(item => item.Items == itemName);
+      
+      if (foundItem) {
+          let newItemName = prompt("Enter the updated item name:");
+          let newQuantity = prompt("Enter the updated item quantity:");
+          let newPrice = prompt("Enter the updated item price:");
+  
+          if (newItemName == null && newQuantity == null && newPrice == null) {
+              foundItem.Items = newItemName;
+              foundItem.ItemQuant = newQuantity;
+              foundItem.ItemPrice = newPrice;
+  
+              localStorage.setItem('allBudgets', JSON.stringify(allItems));
+              display(); 
+             
+              } else {
+             alert("Item not found.");
+            }
+       }
+    }
+          </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget</title>
+    <link rel="stylesheet" href="style.css">
+    </head>
+<body>
+  <h1 class="heading">Budget Tracker</h1>
+
+  <div class="container">
+    <input type="text" id="ItemOf" placeholder="Item"><br>
+    <input type="number" id="Quantity" placeholder="Quantity"><br>
+    <input type="number" id="Price" placeholder="Price"><br>
+    <button onclick="add()">Submit</button>
+    <div id="showErr" style="color: red;"></div>
+      </div>
+    
+      <script>
+        let allItems = []
+        function add(){
+          let Items = document.getElementById('ItemOf').value
+          let ItemQuant = document.getElementById('Quantity').value
+          let ItemPrice = document.getElementById('Price').value
+          let allTo = {Items, ItemQuant, ItemPrice}
+          if(Items == "" && ItemQuant == ""  && ItemPrice == ""){
+            showErr.innerHTML = `<p> Inputs must be filled!</p>`
+          }else{
+            allItems.push(allTo);
+            console.log(allItems);
+            localStorage.setItem ('allBudgets', JSON.stringify(allItems))
+            window.location.href = "display.html"
+          }
+        }
+      </script>
+
+</body>
+</html>
